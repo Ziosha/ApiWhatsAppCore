@@ -2,6 +2,9 @@ using whatsApi.Repository.Interfaces;
 using System.Threading.Tasks;
 using whatsApi.Dtos;
 using Microsoft.Extensions.Configuration;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
 
 namespace whatsApi.Repository
 {
@@ -17,8 +20,8 @@ namespace whatsApi.Repository
         public async Task<bool> SendWhatsapp(WhatsappSendDto messageOut)
         {
 
-            var accountSid = _config.GetSection("Twilo:sid").value; 
-            var authToken = _config.GetSection("Twilo:key").value; 
+            var accountSid = _config.GetSection("Twilio:sid").Value; 
+            var authToken = _config.GetSection("Twilio:key").Value; 
             TwilioClient.Init(accountSid, authToken); 
  
             var messageOptions = new CreateMessageOptions(new PhoneNumber("whatsapp:+59160621860")); 
@@ -27,7 +30,7 @@ namespace whatsApi.Repository
  
             var message = MessageResource.Create(messageOptions); 
             
-            if(message) return true;
+            if(message != null) return true;
             return false;
         }
     }

@@ -1,14 +1,9 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Twilio;
-using Twilio.Rest.Api.V2010.Account;
 using System.Collections.Generic; 
-using Twilio.Types;
 using whatsApi.Dtos;
 using whatsApi.Repository.Interfaces;
-using whatsApi.Repository;
-
 
 namespace Whatsapp.Controllers
 {
@@ -27,7 +22,7 @@ namespace Whatsapp.Controllers
         public async Task<IActionResult> SendWhatsapp(WhatsappSendDto messageOut)
         {
             var whatsapp = await _whatsrepo.SendWhatsapp(messageOut);
-            if(Whatsapp) return Ok("suscces");
+            if(whatsapp) return Ok("suscces");
             return BadRequest("No enviado");
         }
 

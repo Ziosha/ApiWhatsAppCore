@@ -53,7 +53,7 @@ namespace whatsApi
 
         void LoadRepository(IServiceCollection services)
         {
-            services.addScoped<IWhatsappApiRepository, WhatsappApiRepository>();
+            services.AddScoped<IWhatsappApiRepository, WhatsappApiRepository>();
         }
     }
 }
