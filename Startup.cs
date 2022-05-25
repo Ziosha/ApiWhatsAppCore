@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using whatsApi.Repository.Interfaces;
+using whatsApi.Repository;
 
 namespace whatsApi
 {
@@ -26,6 +28,7 @@ namespace whatsApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            LoadRepository(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,6 +49,11 @@ namespace whatsApi
             {
                 endpoints.MapControllers();
             });
+        }
+
+        void LoadRepository(IServiceCollection services)
+        {
+            services.addScoped<IWhatsappApiRepository, WhatsappApiRepository>();
         }
     }
 }

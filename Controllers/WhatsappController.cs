@@ -6,6 +6,8 @@ using Twilio.Rest.Api.V2010.Account;
 using System.Collections.Generic; 
 using Twilio.Types;
 using whatsApi.Dtos;
+using whatsApi.Repository.Interfaces;
+using whatsApi.Repository;
 
 
 namespace Whatsapp.Controllers
@@ -14,22 +16,19 @@ namespace Whatsapp.Controllers
     [ApiController]
     public class WhatsappController : ControllerBase
     {
+        private readonly IWhatsappApiRepository _whatsrepo;
+        public WhatsappController(IWhatsappApiRepository whatsrepo)
+        {
+            _whatsrepo = whatsrepo;
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> SendWhatsapp(WhatsappSendDto messageOut)
         {
-            var accountSid = "[sid]; 
-            var authToken = "[key]"; 
-            TwilioClient.Init(accountSid, authToken); 
- 
-            var messageOptions = new CreateMessageOptions( 
-            new PhoneNumber("whatsapp:+59160621860")); 
-            messageOptions.From = new PhoneNumber("whatsapp:+14155238886");    
-            messageOptions.Body = messageOut.Mensage;   
- 
-            var message = MessageResource.Create(messageOptions); 
-            Console.WriteLine(message.Body); 
-            return Ok("succes");
+            var whatsapp = await _whatsrepo.SendWhatsapp(messageOut);
+            if(Whatsapp) return Ok("suscces");
+            return BadRequest("No enviado");
         }
 
        
